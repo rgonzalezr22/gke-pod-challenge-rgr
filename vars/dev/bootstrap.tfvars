@@ -1,4 +1,4 @@
-prefix = "rgrsite"
+prefix = "gkergr"
 project_id = "sandbox-rgr"
 env = "dev"
 cicd_repository = "rgonzalezr22/gke-pod-challenge-rgr"

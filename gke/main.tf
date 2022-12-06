@@ -56,7 +56,7 @@ module "cluster_nodepool_1" {
   location             = var.cluster.location
   name                 = "${var.globals.prefix}-nodepool"
   service_account = {
-    email = "rgrgke-dev-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"
+    email = "rgrgk-dev-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"
   }
 }
 
@@ -67,7 +67,7 @@ module "gke_nodepools_sa" {
   description = ""
   prefix      = var.globals.prefix
   # allow SA used by CI/CD workflow to impersonate this SA
-  iam               = {"roles/iam.serviceAccountUser" = ["serviceAccount:rgrgke-dev-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"]}
+  iam               = {"roles/iam.serviceAccountUser" = ["serviceAccount:rgrgk-dev-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"]}
   #iam_storage_roles = {}
   iam_project_roles = {
     (var.globals.project_id) = [
@@ -96,7 +96,7 @@ module "bastion-vm" {
     nat        = false
     addresses  = null
   }]
-  service_account        = "rgrgke-dev-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"
+  service_account        = "rgrgk-dev-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"
   instance_type          = var.bastion.instance_type
   service_account_scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   tags                   = ["ssh"]
@@ -112,7 +112,7 @@ module "gke_bastion_sa" {
   description = ""
   prefix      = var.globals.prefix
   # allow SA used by CI/CD workflow to impersonate this SA
-  iam               = {"roles/iam.serviceAccountUser" = ["serviceAccount:rgrgke-dev-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"]}
+  iam               = {"roles/iam.serviceAccountUser" = ["serviceAccount:rgrgk-dev-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"]}
   #iam_storage_roles = {}
   iam_project_roles = {
     (var.globals.project_id) = [
