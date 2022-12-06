@@ -1,7 +1,7 @@
 prefix = "rgrsite"
 project_id = "sandbox-rgr"
 env = "dev"
-cicd_repository = "rgonzalezr22/gkechallenge-rgr"
+cicd_repository = "rgonzalezr22/gke-pod-challenge-rgr"
 
 federated_identity_providers = {
   github-fip = {
