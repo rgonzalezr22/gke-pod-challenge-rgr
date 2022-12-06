@@ -9,3 +9,4 @@ cluster = {
 bastion = {
     instance_type = "e2-standard-2"
 }
+#test-admin-ranges
