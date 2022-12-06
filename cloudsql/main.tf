@@ -15,8 +15,6 @@
  */
  ###
 
-
-
 locals {
   private_network_name = "${local.prefix}-vpc"
   private_ip_name      = "${local.prefix}-private-ip"
