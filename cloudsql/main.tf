@@ -64,7 +64,7 @@ module "cloudsql_sa" {
   description = "Cloud SQL Service Account"
   prefix      = var.globals.prefix
   # allow SA used by CI/CD workflow to impersonate this SA
-  iam               = {"roles/iam.serviceAccountUser" = ["serviceAccount:rgrgke-dev-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"]}
+  #iam               = {"roles/iam.serviceAccountTokenCreator" = ["serviceAccount:gkergr-dev-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"]}
   #iam_storage_roles = {"roles/iam.serviceAccountUser" =  ["serviceAccount:rgrgke-dev-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"]}
   iam_project_roles = {
     (var.globals.project_id) = [
@@ -246,3 +246,4 @@ resource "google_sql_user" "users" {
   host     = each.value.host
   password = each.value.password
 }
+##test-instance
