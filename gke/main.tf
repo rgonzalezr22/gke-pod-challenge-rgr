@@ -99,7 +99,7 @@ module "bastion-vm" {
   service_account        = "gkergr-qa-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"
   instance_type          = var.bastion.instance_type
   service_account_scopes = ["https://www.googleapis.com/auth/cloud-platform"]
-  tags                   = ["ssh"]
+  tags                   = ["ssh","iap"]
 }
 
 

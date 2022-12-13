@@ -37,6 +37,12 @@ module "firewall" {
       targets       = ["gke-ingress"]
       rules         = [{ protocol = "tcp", ports = [80,443,8080] }]
     }
+    allow-iap-ingress = {
+      description   = "Allow IAP ingrss."
+      source_ranges = ["35.235.240.0/20"]
+      targets       = ["iap"]
+      rules         = [{ protocol = "tcp", ports = [80,443,8080] }]
+    }
 } 
 }
 
