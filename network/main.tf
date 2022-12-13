@@ -41,7 +41,7 @@ module "firewall" {
       description   = "Allow IAP ingrss."
       source_ranges = ["35.235.240.0/20"]
       targets       = ["iap"]
-      rules         = [{ protocol = "tcp", ports = [80,443,8080] }]
+      rules         = [{ protocol = "tcp", ports = [22,3389] }]
     }
 } 
 }
