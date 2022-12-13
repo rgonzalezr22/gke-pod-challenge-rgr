@@ -9,4 +9,3 @@ disk_type = "PD_SSD"
 ipv4_enabled = false
 #labels = {app = "db-dev-gke"}
 deletion_protection = false
-#network = "rgrgke-vpc"
