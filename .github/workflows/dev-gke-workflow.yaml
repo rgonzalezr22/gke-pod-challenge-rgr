@@ -81,7 +81,7 @@ jobs:
         name: Terraform init
         working-directory: ${{ env.CURRENT_STAGE }}
         run: |
-          terraform init -backend-config=prefix=${{ env.CURRENT_STAGE }}/terraform.tfstate -no-color
+          terraform init -upgrade -backend-config=prefix=${{ env.CURRENT_STAGE }}/terraform.tfstate -no-color
           
       - id: tf-validate
         name: Terraform validate
