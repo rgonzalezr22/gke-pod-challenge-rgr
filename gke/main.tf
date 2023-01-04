@@ -61,7 +61,7 @@ module "gke_cluster" {
   #}
   labels = {
     environment = var.globals.env
-    cost_center = "latam_DC"
+    cost_center = "latam_dc"
   }
   node_locations = var.cluster.nodepool_location
 }
