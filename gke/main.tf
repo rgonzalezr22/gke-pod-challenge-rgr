@@ -15,27 +15,43 @@
  */
 
 module "gke_cluster" {
-  source                    = "git::https://github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/gke-cluster"
-  project_id                = var.globals.project_id
-  name                      = "${var.globals.prefix}-gke-cluster"
-  location                  = var.cluster.location
-  vpc_config                = {
-    network                   = var.network.vpc.self_link
-    subnetwork                = var.network.vpc.subnet_self_links["us-central1/gke-subnet1"]
-    secondary_range_names   = {
-      pods      = "pods"
-      services  = "services"
+  source     = "git::https://github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/gke-cluster"
+  project_id = var.globals.project_id
+  name       = "${var.globals.prefix}-gke-cluster"
+  location   = var.cluster.location
+  vpc_config = {
+    network    = var.network.vpc.self_link
+    subnetwork = var.network.vpc.subnet_self_links["us-central1/gke-subnet1"]
+    secondary_range_names = {
+      pods     = "pods"
+      services = "services"
     }
     master_authorized_ranges = {
-    internal-vms = var.network.admin_ranges[0]
-  }
-  master_ipv4_cidr_block  = "172.16.0.0/28" # var.network.vpc.subnet_secondary_ranges["us-central1/gke-uc1"].services
+      internal-vms = var.network.admin_ranges[0]
+    }
+    master_ipv4_cidr_block = "172.16.0.0/28" # var.network.vpc.subnet_secondary_ranges["us-central1/gke-uc1"].services
   }
   max_pods_per_node = 32
   private_cluster_config = {
     enable_private_nodes    = true
-    enable_private_endpoint = true    
+    enable_private_endpoint = true
     master_global_access    = false
+  }
+  #Enable auto-scaling
+  cluster_autoscaling = {
+    description = "Enable and configure limits for Node Auto-Provisioning with Cluster Autoscaler."
+    auto_provisioning_defaults = {
+      image_type      = "e2-medium"
+      service_account = module.gke_nodepools_sa.name
+    }
+    cpu_limits = {
+      min = 1
+      max = 4
+    }
+    mem_limits = {
+      min = 2
+      max = 8
+    }
   }
   #Enable cluster dns
   #dns_config = {
@@ -51,11 +67,11 @@ module "gke_cluster" {
 }
 
 module "cluster_nodepool_1" {
-  source               = "git::https://github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/gke-nodepool"
-  project_id           = var.globals.project_id
-  cluster_name         = module.gke_cluster.name
-  location             = var.cluster.location
-  name                 = "${var.globals.prefix}-nodepool"
+  source       = "git::https://github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/gke-nodepool"
+  project_id   = var.globals.project_id
+  cluster_name = module.gke_cluster.name
+  location     = var.cluster.location
+  name         = "${var.globals.prefix}-nodepool"
   service_account = {
     email = "gkergr-qa-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"
   }
@@ -68,7 +84,7 @@ module "gke_nodepools_sa" {
   description = ""
   prefix      = var.globals.prefix
   # allow SA used by CI/CD workflow to impersonate this SA
-  iam               = {"roles/iam.serviceAccountUser" = ["serviceAccount:gkergr-qa-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"]}
+  iam = { "roles/iam.serviceAccountUser" = ["serviceAccount:gkergr-qa-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"] }
   #iam_storage_roles = {}
   iam_project_roles = {
     (var.globals.project_id) = [
@@ -83,7 +99,7 @@ module "gke_nodepools_sa" {
       "roles/iap.tunnelResourceAccessor"
     ]
   }
-  }
+}
 
 
 module "bastion-vm" {
@@ -100,7 +116,7 @@ module "bastion-vm" {
   service_account        = "gkergr-qa-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"
   instance_type          = var.bastion.instance_type
   service_account_scopes = ["https://www.googleapis.com/auth/cloud-platform"]
-  tags                   = ["ssh","iap"]
+  tags                   = ["ssh", "iap"]
 }
 
 
@@ -113,7 +129,7 @@ module "gke_bastion_sa" {
   description = ""
   prefix      = var.globals.prefix
   # allow SA used by CI/CD workflow to impersonate this SA
-  iam               = {"roles/iam.serviceAccountUser" = ["serviceAccount:gkergr-qa-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"]}
+  iam = { "roles/iam.serviceAccountUser" = ["serviceAccount:gkergr-qa-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"] }
   #iam_storage_roles = {}
   iam_project_roles = {
     (var.globals.project_id) = [
@@ -136,7 +152,7 @@ module "gke_spinaker_sa" {
   description = ""
   prefix      = var.globals.prefix
   # allow SA used by CI/CD workflow to impersonate this SA
-  iam               = {"roles/iam.serviceAccountUser" = ["serviceAccount:gkergr-qa-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"]}
+  iam = { "roles/iam.serviceAccountUser" = ["serviceAccount:gkergr-qa-github-impersonate@sandbox-rgr.iam.gserviceaccount.com"] }
   #iam_storage_roles = {}
   iam_project_roles = {
     (var.globals.project_id) = [

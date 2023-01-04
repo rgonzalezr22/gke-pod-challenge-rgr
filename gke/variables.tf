@@ -52,3 +52,24 @@ variable "bastion" {
     instance_type = string
   })
 }
+
+variable "cluster_autoscaling" {
+  description = "Enable and configure limits for Node Auto-Provisioning with Cluster Autoscaler."
+  type = object({
+    auto_provisioning_defaults = optional(object({
+      boot_disk_kms_key = optional(string)
+      image_type        = optional(string)
+      oauth_scopes      = optional(list(string))
+      service_account   = optional(string)
+    }))
+    cpu_limits = optional(object({
+      min = number
+      max = number
+    }))
+    mem_limits = optional(object({
+      min = number
+      max = number
+    }))
+  })
+  default = null
+}
